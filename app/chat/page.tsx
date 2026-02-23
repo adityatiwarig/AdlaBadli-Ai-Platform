@@ -67,6 +67,8 @@ interface SessionLite {
   learnerId: string
   teacher?: { id: string; name: string }
   learner?: { id: string; name: string }
+  startTime?: string
+  createdAt?: string
 }
 
 type AgentType = "coach" | "icebreaker" | "scheduler" | "progress"
@@ -78,6 +80,13 @@ const AGENTS: Array<{ id: AgentType; label: string; hint: string; icon: typeof L
   { id: "scheduler", label: "Planner", hint: "Structured session flow", icon: Compass },
   { id: "progress", label: "Progress", hint: "Gap + priorities", icon: TrendingUp },
 ]
+
+const SESSION_STATUS_PRIORITY: Record<SessionLite["status"], number> = {
+  active: 0,
+  scheduled: 1,
+  completed: 2,
+  cancelled: 3,
+}
 
 function ChatContent() {
   const { user, loading } = useAuth()
@@ -165,29 +174,47 @@ function ChatContent() {
         return partnerInSession && userInSession && s.status !== "cancelled" && !s.isDeletedForUser
       })
       .sort((a, b) => {
+        const aPriority = SESSION_STATUS_PRIORITY[a.status] ?? 99
+        const bPriority = SESSION_STATUS_PRIORITY[b.status] ?? 99
+        if (aPriority !== bPriority) return aPriority - bPriority
         const aT = new Date(a.summaryUpdatedAt || 0).getTime()
         const bT = new Date(b.summaryUpdatedAt || 0).getTime()
-        return bT - aT
+        if (aT !== bT) return bT - aT
+        const aStart = new Date(a.startTime || a.createdAt || 0).getTime()
+        const bStart = new Date(b.startTime || b.createdAt || 0).getTime()
+        return bStart - aStart
       })
   }, [sessions, activePartnerId, user])
 
-  useEffect(() => {
-    if (!activeSessionId && partnerSessions.length > 0) {
-      setActiveSessionId(partnerSessions[0].id)
-    }
-  }, [activeSessionId, partnerSessions])
+  const preferredSessionId = useMemo(() => {
+    if (partnerSessions.length === 0) return null
+    return partnerSessions[0].id
+  }, [partnerSessions])
 
   useEffect(() => {
-    if (activeSessionId && partnerSessions.length > 0 && !partnerSessions.some((s) => s.id === activeSessionId)) {
+    if (!activeSessionId && preferredSessionId) {
+      setActiveSessionId(preferredSessionId)
+    }
+  }, [activeSessionId, preferredSessionId])
+
+  useEffect(() => {
+    if (!preferredSessionId) return
+    if (activeSessionId && !partnerSessions.some((s) => s.id === activeSessionId)) {
+      setActiveSessionId(preferredSessionId)
+      return
+    }
+    const selectedSession = partnerSessions.find((s) => s.id === activeSessionId)
+    if (selectedSession?.status !== "active" && partnerSessions[0].status === "active") {
       setActiveSessionId(partnerSessions[0].id)
     }
-  }, [activeSessionId, partnerSessions])
+  }, [activeSessionId, partnerSessions, preferredSessionId])
 
   const activeSession = useMemo(
     () => partnerSessions.find((s) => s.id === activeSessionId) || null,
     [partnerSessions, activeSessionId]
   )
   const isActiveSessionChat = chatMode === "session" && activeSession?.status === "active"
+  const hasLiveSession = partnerSessions.some((s) => s.status === "active")
 
   useEffect(() => {
     if (chatMode !== "session" || activeSession?.status !== "active") {
@@ -282,14 +309,16 @@ function ChatContent() {
 
   return (
     <div className="relative mx-auto max-w-[96rem] px-3 py-4 md:px-4 md:py-5">
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_30%_at_20%_10%,rgba(13,148,136,.18),transparent_60%),radial-gradient(60%_30%_at_80%_15%,rgba(245,158,11,.14),transparent_55%)]" />
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(55%_35%_at_8%_10%,rgba(13,148,136,.22),transparent_62%),radial-gradient(50%_28%_at_85%_8%,rgba(245,158,11,.18),transparent_58%),radial-gradient(40%_26%_at_50%_100%,rgba(14,165,233,.12),transparent_70%)]" />
       <div className="mb-3">
-        <h1 className="text-3xl font-bold text-foreground">Chat Center</h1>
-        <p className="mt-1 text-muted-foreground">Normal chat and session chat are now separate.</p>
+        <h1 className="bg-gradient-to-r from-primary via-cyan-500 to-accent bg-clip-text text-3xl font-extrabold tracking-tight text-transparent">
+          Chat Center
+        </h1>
+        <p className="mt-1 text-muted-foreground">Normal and session chat stay separate, with live-session auto-focus.</p>
       </div>
 
       <div className="grid h-[calc(100dvh-100px)] min-h-[640px] gap-3 md:h-[calc(100dvh-120px)] md:min-h-[720px] md:grid-cols-[340px_1fr]">
-        <Card className={`flex min-h-0 flex-col overflow-hidden border border-border/70 bg-card/95 ${activePartnerId ? "hidden md:flex" : "flex"}`}>
+        <Card className={`flex min-h-0 flex-col overflow-hidden border border-border/70 bg-card/90 shadow-xl shadow-primary/5 backdrop-blur ${activePartnerId ? "hidden md:flex" : "flex"}`}>
           <div className="border-b border-border p-3">
             <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
               <Users className="h-4 w-4" />
@@ -312,8 +341,10 @@ function ChatContent() {
                     setAgentResult(null)
                     setMessageQuery("")
                   }}
-                  className={`mb-1.5 flex w-full items-center gap-3 rounded-lg p-3 text-left transition ${
-                    activePartnerId === p.user.id ? "bg-primary/12 ring-1 ring-primary/30" : "hover:bg-muted/60"
+                  className={`mb-1.5 flex w-full items-center gap-3 rounded-xl border p-3 text-left transition ${
+                    activePartnerId === p.user.id
+                      ? "border-primary/30 bg-primary/12 shadow-sm shadow-primary/10 ring-1 ring-primary/30"
+                      : "border-transparent hover:border-border hover:bg-muted/60"
                   }`}
                 >
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
@@ -334,7 +365,7 @@ function ChatContent() {
           </div>
         </Card>
 
-        <Card className={`flex min-h-0 flex-col overflow-hidden border border-border/70 bg-card/95 ${!activePartnerId ? "hidden md:flex" : "flex"}`}>
+        <Card className={`flex min-h-0 flex-col overflow-hidden border border-border/70 bg-card/90 shadow-xl shadow-primary/5 backdrop-blur ${!activePartnerId ? "hidden md:flex" : "flex"}`}>
           {activePartnerId && partnerInfo ? (
             <>
               <div className="border-b border-border p-3">
@@ -399,14 +430,16 @@ function ChatContent() {
                           ) : (
                             partnerSessions.map((s) => (
                               <SelectItem key={s.id} value={s.id}>
-                                {s.skill} - {s.status}
+                                {s.skill} - {s.status === "active" ? "Live" : s.status}
                               </SelectItem>
                             ))
                           )}
                         </SelectContent>
                       </Select>
                       <div className="rounded-md bg-muted/50 px-2.5 py-1.5 text-[11px] text-muted-foreground">
-                        Session chat history is permanent for revision and cannot be cleared.
+                        {hasLiveSession
+                          ? "Live session detected. This thread auto-switches to the active session."
+                          : "Session chat history is permanent for revision and cannot be cleared."}
                       </div>
                     </div>
                   )}
@@ -533,7 +566,7 @@ function ChatContent() {
                 </div>
               </div>
 
-              <div className="app-scroll min-h-[260px] flex-1 overflow-y-auto bg-[linear-gradient(180deg,rgba(13,148,136,.04)_0%,transparent_30%)] p-3 pb-24 md:min-h-[320px] md:p-4 md:pb-24">
+              <div className="app-scroll min-h-[260px] flex-1 overflow-y-auto bg-[linear-gradient(180deg,rgba(13,148,136,.07)_0%,rgba(245,158,11,.03)_45%,transparent_80%)] p-3 pb-24 md:min-h-[320px] md:p-4 md:pb-24">
                 {filteredMessages.length === 0 ? (
                   <div className="flex h-full flex-col items-center justify-center text-center">
                     <Lightbulb className="mb-3 h-12 w-12 text-muted-foreground/20" />
@@ -550,8 +583,10 @@ function ChatContent() {
                     {filteredMessages.map((msg) => (
                       <div key={msg.id} className={`flex ${msg.senderId === user.id ? "justify-end" : "justify-start"}`}>
                         <div
-                          className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm shadow-sm ${
-                            msg.senderId === user.id ? "bg-primary text-primary-foreground" : "border border-border/70 bg-card text-foreground"
+                          className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm shadow-sm transition ${
+                            msg.senderId === user.id
+                              ? "bg-gradient-to-br from-primary to-cyan-500 text-primary-foreground shadow-primary/20"
+                              : "border border-border/70 bg-card/95 text-foreground"
                           }`}
                         >
                           <p>{msg.message}</p>
