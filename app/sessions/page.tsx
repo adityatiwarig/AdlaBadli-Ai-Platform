@@ -243,21 +243,20 @@ function SessionsContent() {
   }
 
   return (
-    <div className="relative mx-auto max-w-6xl px-4 py-8">
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(45%_30%_at_10%_8%,rgba(13,148,136,.18),transparent_70%),radial-gradient(42%_28%_at_92%_2%,rgba(245,158,11,.16),transparent_68%)]" />
+    <div className="page-shell max-w-6xl">
       <div className="mb-8 flex items-center justify-between gap-3">
         <div>
-          <h1 className="bg-gradient-to-r from-primary via-cyan-500 to-accent bg-clip-text text-3xl font-extrabold tracking-tight text-transparent">Sessions</h1>
-          <p className="mt-1 text-muted-foreground">Run sessions, track AI context, and handle post-session Q&A smoothly.</p>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">Sessions</h1>
+          <p className="mt-1 text-sm text-muted-foreground sm:text-base">Run sessions, track AI context, and handle post-session Q&A smoothly.</p>
         </div>
-        <Button onClick={() => setShowCreate(true)} className="gap-2 shadow-sm shadow-primary/25">
+        <Button onClick={() => setShowCreate(true)} className="gap-2">
           <Plus className="h-4 w-4" />
           New Session
         </Button>
       </div>
 
       {showCreate && (
-        <Card className="mb-6 border-2 border-primary/20 bg-card/90 shadow-lg shadow-primary/10 backdrop-blur">
+        <Card className="section-card mb-6 border-primary/25">
           <CardHeader>
             <CardTitle className="text-lg">Schedule New Session</CardTitle>
             <CardDescription>Pick exact date, time, and duration for your next session.</CardDescription>
@@ -328,7 +327,7 @@ function SessionsContent() {
           </h2>
           <div className="space-y-3">
             {activeSessions.map((session: { id: string; skill: string; status: string; startTime: string; meetingRoomId?: string; meetingUrl?: string; teacherId: string; teacher?: { id: string; name: string }; learner?: { id: string; name: string } }) => (
-              <Card key={session.id} className="border-2 border-primary/20 bg-card/90 shadow-lg shadow-primary/10 backdrop-blur">
+              <Card key={session.id} className="section-card border-primary/25">
                 <CardContent className="flex flex-col items-center justify-between gap-4 p-5 sm:flex-row">
                   <div className="flex items-center gap-4">
                     {getStatusIcon(session.status)}
@@ -374,7 +373,7 @@ function SessionsContent() {
           </h2>
           <div className="space-y-3">
             {scheduledSessions.map((session: { id: string; skill: string; status: string; startTime?: string; plannedDuration?: number; meetingRoomId?: string; meetingUrl?: string; teacherId: string; teacher?: { id: string; name: string }; learner?: { id: string; name: string } }) => (
-              <Card key={session.id} className="border border-border bg-card/90 shadow-md shadow-primary/5 backdrop-blur">
+              <Card key={session.id} className="section-card">
                 <CardContent className="flex flex-col items-center justify-between gap-4 p-5 sm:flex-row">
                   <div className="flex items-center gap-4">
                     {getStatusIcon(session.status)}
@@ -472,7 +471,7 @@ function SessionsContent() {
               const windowOpen = remainingMs > 0
               const followUp = session.followUpQuestion
               return (
-                <Card key={session.id} className={`border bg-card/90 shadow-md shadow-primary/5 backdrop-blur ${session.hasTeacherPendingQuestion ? "border-accent/60" : "border-border"}`}>
+                <Card key={session.id} className={`section-card ${session.hasTeacherPendingQuestion ? "border-accent/60" : ""}`}>
                   <CardContent className="p-5">
                     <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
                       <div className="flex items-center gap-4">
@@ -663,7 +662,7 @@ function SessionsContent() {
           </h2>
           <div className="space-y-3">
             {history.map((item: { id: string; title: string; completedAt: string }) => (
-              <Card key={item.id} className="border border-border bg-card/90 shadow-md shadow-primary/5 backdrop-blur">
+              <Card key={item.id} className="section-card">
                 <CardContent className="p-4">
                   <p className="text-sm font-semibold text-foreground">{item.title}</p>
                   <p className="mt-1 text-xs text-muted-foreground">Session completed.</p>

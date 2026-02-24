@@ -102,14 +102,14 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-8">
+    <div className="page-shell max-w-6xl">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-foreground">Your Profile</h1>
-        <p className="mt-1 text-muted-foreground">Manage your skills, preferences, and availability.</p>
+        <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">Your Profile</h1>
+        <p className="mt-1 text-sm text-muted-foreground sm:text-base">Manage your skills, preferences, and availability.</p>
       </div>
 
       {/* Profile Header Card */}
-      <Card className="mb-6 border border-border">
+      <Card className="section-card mb-6">
         <CardContent className="flex flex-col items-center gap-6 p-6 sm:flex-row">
           <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-primary text-2xl font-bold text-primary-foreground">
             {user.name.charAt(0).toUpperCase()}
@@ -145,7 +145,7 @@ export default function ProfilePage() {
 
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Basic Info */}
-        <Card className="border border-border">
+        <Card className="section-card">
           <CardHeader>
             <CardTitle className="text-lg">Basic Info</CardTitle>
           </CardHeader>
@@ -175,7 +175,7 @@ export default function ProfilePage() {
         </Card>
 
         {/* Skills */}
-        <Card className="border border-border">
+        <Card className="section-card">
           <CardHeader>
             <CardTitle className="text-lg">Skills</CardTitle>
           </CardHeader>
@@ -246,7 +246,7 @@ export default function ProfilePage() {
         </Card>
 
         {/* Languages & Availability */}
-        <Card className="border border-border">
+        <Card className="section-card">
           <CardHeader>
             <CardTitle className="text-lg">Languages</CardTitle>
           </CardHeader>
@@ -270,12 +270,12 @@ export default function ProfilePage() {
           </CardContent>
         </Card>
 
-        <Card className="border border-border">
+        <Card className="section-card">
           <CardHeader>
             <CardTitle className="text-lg">Availability</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               {timeSlots.map((slot) => (
                 <button
                   key={slot}

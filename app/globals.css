@@ -125,25 +125,22 @@
     min-height: 100vh;
     overflow-x: hidden;
     background:
-      radial-gradient(circle at 12% 18%, color-mix(in oklab, var(--primary) 20%, transparent) 0%, transparent 38%),
-      radial-gradient(circle at 88% 14%, color-mix(in oklab, var(--accent) 18%, transparent) 0%, transparent 40%),
-      radial-gradient(circle at 68% 82%, color-mix(in oklab, var(--chart-3) 16%, transparent) 0%, transparent 42%),
-      linear-gradient(165deg, color-mix(in oklab, var(--background) 85%, black 2%) 0%, color-mix(in oklab, var(--background) 96%, white 8%) 100%);
-    background-attachment: fixed;
+      radial-gradient(circle at 10% 14%, color-mix(in oklab, var(--primary) 12%, transparent) 0%, transparent 42%),
+      radial-gradient(circle at 92% 10%, color-mix(in oklab, var(--accent) 10%, transparent) 0%, transparent 44%),
+      linear-gradient(160deg, color-mix(in oklab, var(--background) 94%, black 1%) 0%, color-mix(in oklab, var(--background) 98%, white 4%) 100%);
   }
 
   body::before {
     content: "";
     position: fixed;
-    inset: -12% -8%;
+    inset: -10%;
     z-index: -1;
     pointer-events: none;
-    opacity: 0.75;
+    opacity: 0.38;
     background:
-      repeating-linear-gradient(120deg, transparent 0 22px, color-mix(in oklab, var(--foreground) 3%, transparent) 22px 24px),
-      radial-gradient(circle at 35% 35%, color-mix(in oklab, var(--primary) 16%, transparent) 0%, transparent 52%),
-      radial-gradient(circle at 78% 68%, color-mix(in oklab, var(--accent) 15%, transparent) 0%, transparent 50%);
-    animation: aurora-drift 26s ease-in-out infinite alternate;
+      linear-gradient(140deg, transparent 0 38%, color-mix(in oklab, var(--foreground) 1.8%, transparent) 50%, transparent 64%),
+      radial-gradient(circle at 32% 30%, color-mix(in oklab, var(--primary) 10%, transparent) 0%, transparent 56%);
+    animation: aurora-drift 48s linear infinite alternate;
   }
 
   body::after {
@@ -153,21 +150,21 @@
     z-index: -1;
     pointer-events: none;
     mix-blend-mode: soft-light;
-    opacity: 0.55;
+    opacity: 0.3;
     background:
-      radial-gradient(circle at 20% 82%, color-mix(in oklab, var(--chart-5) 15%, transparent) 0%, transparent 36%),
-      radial-gradient(circle at 84% 24%, color-mix(in oklab, var(--chart-2) 18%, transparent) 0%, transparent 34%);
-    animation: aurora-pulse 18s ease-in-out infinite;
+      radial-gradient(circle at 24% 84%, color-mix(in oklab, var(--chart-5) 8%, transparent) 0%, transparent 38%),
+      radial-gradient(circle at 84% 20%, color-mix(in oklab, var(--chart-2) 10%, transparent) 0%, transparent 36%);
+    animation: aurora-pulse 28s ease-in-out infinite;
   }
 }
 
 @layer utilities {
   .glass-panel {
-    background: color-mix(in oklab, var(--card) 82%, transparent);
-    backdrop-filter: blur(14px) saturate(140%);
+    background: color-mix(in oklab, var(--card) 90%, transparent);
+    backdrop-filter: blur(8px) saturate(118%);
     box-shadow:
-      0 14px 40px color-mix(in oklab, var(--foreground) 12%, transparent),
-      inset 0 1px 0 color-mix(in oklab, white 24%, transparent);
+      0 8px 24px color-mix(in oklab, var(--foreground) 8%, transparent),
+      inset 0 1px 0 color-mix(in oklab, white 16%, transparent);
   }
 
   .text-shimmer {
@@ -181,8 +178,23 @@
 
   .text-dazzle {
     text-shadow:
-      0 0 18px color-mix(in oklab, var(--primary) 24%, transparent),
-      0 0 34px color-mix(in oklab, var(--accent) 20%, transparent);
+      0 0 10px color-mix(in oklab, var(--primary) 18%, transparent),
+      0 0 20px color-mix(in oklab, var(--accent) 10%, transparent);
+  }
+
+  .page-shell {
+    @apply mx-auto w-full max-w-7xl px-4 py-6 md:py-8;
+  }
+
+  .section-card {
+    @apply glass-panel rounded-2xl border border-border/70;
+  }
+
+  .heading-gradient {
+    background-image: linear-gradient(120deg, color-mix(in oklab, var(--foreground) 88%, white 6%) 12%, color-mix(in oklab, var(--primary) 72%, white 6%) 52%, color-mix(in oklab, var(--accent) 62%, white 6%) 90%);
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
   }
 
   .app-scroll {
@@ -209,10 +221,10 @@
 
 @keyframes aurora-drift {
   0% {
-    transform: translate3d(-2%, -1%, 0) rotate(0deg) scale(1);
+    transform: translate3d(-1%, -0.8%, 0) rotate(0deg) scale(1);
   }
   100% {
-    transform: translate3d(2%, 1.5%, 0) rotate(3deg) scale(1.05);
+    transform: translate3d(1%, 0.8%, 0) rotate(1.5deg) scale(1.03);
   }
 }
 
@@ -222,8 +234,8 @@
     transform: scale(1);
   }
   50% {
-    opacity: 0.65;
-    transform: scale(1.08);
+    opacity: 0.45;
+    transform: scale(1.03);
   }
 }
 
@@ -233,5 +245,13 @@
   }
   100% {
     background-position: 200% center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  body::after,
+  .text-shimmer {
+    animation: none !important;
   }
 }

@@ -112,9 +112,8 @@ export default function LandingPage() {
             <Zap className="h-3.5 w-3.5" />
             AI-Powered Skill Exchange Platform
           </div>
-          <h1 className="mb-6 text-balance text-4xl font-extrabold tracking-tight text-foreground md:text-6xl lg:text-7xl">
-            <span className="text-dazzle">Trade Skills,</span>{" "}
-            <span className="text-shimmer">Not Money</span>
+          <h1 className="mb-6 text-balance text-4xl font-extrabold tracking-tight md:text-6xl lg:text-7xl">
+            <span className="heading-gradient">Trade Skills, Not Money</span>
           </h1>
           <p className="mx-auto mb-10 max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg md:text-xl">
             AdlaBadli AI converts human knowledge into a shared learning economy where time becomes currency. Teach what you know, learn what you love.

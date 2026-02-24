@@ -43,8 +43,8 @@ export default function LoginPage() {
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary shadow-[0_0_26px_color-mix(in_oklab,var(--primary)_45%,transparent)]">
             <ArrowLeftRight className="h-6 w-6 text-primary-foreground" />
           </div>
-          <CardTitle className="text-2xl font-bold text-dazzle sm:text-3xl">
-            <span className="text-shimmer">Welcome Back</span>
+          <CardTitle className="text-2xl font-bold sm:text-3xl">
+            <span className="heading-gradient">Welcome Back</span>
           </CardTitle>
           <CardDescription>
             Sign in to continue your skill exchange journey

@@ -50,20 +50,20 @@ export default function DashboardPage() {
   const completedSessions = sessionData?.sessions?.filter((s: { status: string }) => s.status === "completed") || []
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8">
+    <div className="page-shell">
       {/* Welcome */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-foreground">
+        <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
           Welcome back, {user.name.split(" ")[0]}
         </h1>
-        <p className="mt-1 text-muted-foreground">
+        <p className="mt-1 text-sm text-muted-foreground sm:text-base">
           Personalized insights for your learning economy: match quality, trust momentum, and credit growth.
         </p>
       </div>
 
       {/* Stats Grid */}
       <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Card className="border border-border">
+        <Card className="section-card">
           <CardContent className="flex items-center gap-4 p-5">
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary/10">
               <Timer className="h-6 w-6 text-primary" />
@@ -75,7 +75,7 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="border border-border">
+        <Card className="section-card">
           <CardContent className="flex items-center gap-4 p-5">
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-chart-2/10">
               <Shield className="h-6 w-6 text-chart-2" />
@@ -87,7 +87,7 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="border border-border">
+        <Card className="section-card">
           <CardContent className="flex items-center gap-4 p-5">
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-chart-3/10">
               <BookOpen className="h-6 w-6 text-chart-3" />
@@ -99,7 +99,7 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="border border-border">
+        <Card className="section-card">
           <CardContent className="flex items-center gap-4 p-5">
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-chart-5/10">
               <TrendingUp className="h-6 w-6 text-chart-5" />
@@ -114,7 +114,7 @@ export default function DashboardPage() {
 
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Skills Overview */}
-        <Card className="border border-border lg:col-span-1">
+        <Card className="section-card lg:col-span-1">
           <CardHeader>
             <CardTitle className="text-lg">Your Skills</CardTitle>
             <CardDescription>What you teach and want to learn</CardDescription>
@@ -162,7 +162,7 @@ export default function DashboardPage() {
         </Card>
 
         {/* Top Matches */}
-        <Card className="border border-border lg:col-span-2">
+        <Card className="section-card lg:col-span-2">
           <CardHeader className="flex flex-row items-center justify-between">
             <div>
               <CardTitle className="text-lg">Recommended Matches</CardTitle>
@@ -187,7 +187,7 @@ export default function DashboardPage() {
             ) : (
               <div className="space-y-3">
                 {topMatches.map((match: { user: { id: string; name: string; city: string; area?: string; trustScore: number; teachSkills: string[] }; score: number; confidence?: string; matchedTeachSkill: string; reasons: string[] }) => (
-                  <div key={match.user.id} className="flex items-center gap-4 rounded-lg border border-border p-4 transition-colors hover:bg-muted/50">
+                  <div key={match.user.id} className="flex items-center gap-4 rounded-xl border border-border/70 p-4 transition-colors hover:bg-muted/45">
                     <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
                       {match.user.name.charAt(0)}
                     </div>
@@ -223,7 +223,7 @@ export default function DashboardPage() {
 
       {/* Active Sessions & Quick Actions */}
       <div className="mt-6 grid gap-6 lg:grid-cols-2">
-        <Card className="border border-border">
+        <Card className="section-card">
           <CardHeader>
             <CardTitle className="text-lg">Upcoming Sessions</CardTitle>
             <CardDescription>{activeSessions.length} active or scheduled</CardDescription>
@@ -237,7 +237,7 @@ export default function DashboardPage() {
             ) : (
               <div className="space-y-3">
                 {activeSessions.slice(0, 3).map((session: { id: string; skill: string; status: string; startTime?: string; teacher?: { name: string }; learner?: { name: string }; teacherId: string }) => (
-                  <div key={session.id} className="flex items-center justify-between rounded-lg border border-border p-3">
+                  <div key={session.id} className="flex items-center justify-between rounded-xl border border-border/70 p-3">
                     <div>
                       <p className="font-medium text-foreground">{session.skill}</p>
                       <p className="text-xs text-muted-foreground">
@@ -264,12 +264,12 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="border border-border">
+        <Card className="section-card">
           <CardHeader>
             <CardTitle className="text-lg">Quick Actions</CardTitle>
             <CardDescription>Jump into what matters</CardDescription>
           </CardHeader>
-          <CardContent className="grid grid-cols-2 gap-3">
+          <CardContent className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <Link href="/explore">
               <Button variant="outline" className="h-auto w-full flex-col gap-2 py-6">
                 <Search className="h-6 w-6 text-primary" />

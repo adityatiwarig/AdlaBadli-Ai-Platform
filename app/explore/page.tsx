@@ -117,15 +117,15 @@ export default function ExplorePage() {
   }, [matches, shortlistOnly, shortlist, searchQuery, selectedSkill, sameCityOnly, user.city])
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8">
-      <div className="mb-8 rounded-2xl border border-border bg-card p-6 shadow-sm">
+    <div className="page-shell">
+      <div className="section-card mb-8 p-5 sm:p-6">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
               <Sparkles className="h-3.5 w-3.5" />
               Smart Matchmaking Hub
             </div>
-            <h1 className="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">Find Your Best Learning Partner</h1>
+            <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl">Find Your Best Learning Partner</h1>
             <p className="mt-2 max-w-3xl text-sm text-muted-foreground md:text-base">
               Improved scoring now prioritizes skill fit, schedule overlap, trust/reliability, local compatibility, and learning chemistry.
             </p>
@@ -137,7 +137,7 @@ export default function ExplorePage() {
         </div>
       </div>
 
-      <div className="mb-6 rounded-xl border border-border bg-card p-4 shadow-sm">
+      <div className="section-card mb-6 rounded-xl p-4">
         <div className="mb-3 flex flex-col gap-3 md:flex-row">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -192,7 +192,7 @@ export default function ExplorePage() {
       </div>
 
       {filteredMatches.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border py-20">
+        <div className="section-card flex flex-col items-center justify-center border-dashed py-20">
           <Search className="mb-4 h-16 w-16 text-muted-foreground/40" />
           <h3 className="text-xl font-semibold text-foreground">No matches for these filters</h3>
           <p className="mt-2 text-sm text-muted-foreground">Try clearing skill/city filters or update your profile skills.</p>
@@ -212,7 +212,7 @@ export default function ExplorePage() {
                   : "bg-muted text-muted-foreground"
 
             return (
-              <Card key={match.user.id} className="overflow-hidden border border-border bg-card transition-all hover:-translate-y-0.5 hover:shadow-lg">
+              <Card key={match.user.id} className="section-card overflow-hidden transition-all hover:-translate-y-0.5 hover:shadow-lg">
                 <CardContent className="p-0">
                   <div className="border-b border-border bg-gradient-to-r from-primary/10 via-transparent to-accent/10 px-5 py-4">
                     <div className="flex items-start justify-between gap-3">
@@ -222,7 +222,7 @@ export default function ExplorePage() {
                         </div>
                         <div>
                           <h3 className="text-lg font-bold text-foreground">{match.user.name}</h3>
-                          <p className="text-xs text-muted-foreground">{match.user.skillLevel} level • {match.user.learningStyle || "mixed"} style</p>
+                          <p className="text-xs text-muted-foreground">{match.user.skillLevel} level - {match.user.learningStyle || "mixed"} style</p>
                         </div>
                       </div>
                       <button
@@ -325,7 +325,7 @@ export default function ExplorePage() {
         </div>
       )}
 
-      <div className="mt-8 rounded-xl border border-border bg-card p-4 text-xs text-muted-foreground">
+      <div className="section-card mt-8 rounded-xl p-4 text-xs text-muted-foreground">
         <div className="flex items-center gap-2">
           <Users className="h-4 w-4" />
           Score includes skill fit, availability overlap, trust/reliability, location, and learning chemistry.
@@ -334,3 +334,4 @@ export default function ExplorePage() {
     </div>
   )
 }
+

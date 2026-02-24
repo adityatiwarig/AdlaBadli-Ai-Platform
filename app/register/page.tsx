@@ -83,7 +83,7 @@ export default function RegisterPage() {
             <ArrowLeftRight className="h-6 w-6 text-primary-foreground" />
           </div>
           <CardTitle className="text-2xl font-bold sm:text-3xl">
-            <span className="text-shimmer">Create Account</span>
+            <span className="heading-gradient">Create Account</span>
           </CardTitle>
           <CardDescription>
             Step {step} of 3 - {step === 1 ? "Basic Info" : step === 2 ? "Skills & Interests" : "Availability & Bio"}

@@ -60,8 +60,8 @@ export function Navbar() {
   if (loading) return null
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-card/80 backdrop-blur-md">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
+    <header className="sticky top-0 z-50 border-b border-border/70 bg-card/85 backdrop-blur-md">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-4 py-3">
         <Link href={user ? "/dashboard" : "/"} className="flex items-center gap-2">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
             <ArrowLeftRight className="h-5 w-5 text-primary-foreground" />
@@ -250,12 +250,12 @@ export function Navbar() {
             )}
           </>
         ) : (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             <Link href="/login">
-              <Button variant="ghost" size="sm">Login</Button>
+              <Button variant="ghost" size="sm" className="px-3 sm:px-4">Login</Button>
             </Link>
             <Link href="/register">
-              <Button size="sm">Get Started</Button>
+              <Button size="sm" className="px-3 sm:px-4">Get Started</Button>
             </Link>
           </div>
         )}
