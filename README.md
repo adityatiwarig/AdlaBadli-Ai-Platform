@@ -246,6 +246,43 @@ Defaults:
 | `npm run start` | Start production server |
 | `npm run lint` | Run ESLint |
 | `npm run socket` | Start Socket.IO relay server |
+## Free Deployment (Vercel + Render + MongoDB Atlas)
+
+This project can run on free tiers with this split:
+
+- Web app (Next.js): Vercel Hobby
+- Socket server (`server/socket-server.js`): Render Free Web Service
+- Database: MongoDB Atlas M0 Free Cluster
+
+### 1) Deploy Socket Server on Render
+
+- Create a new Web Service from this repo.
+- Render can auto-detect `render.yaml`.
+- Set `SOCKET_CORS_ORIGIN` to your Vercel app URL (for example `https://your-app.vercel.app`).
+- After deploy, copy the socket URL (for example `https://adlabadli-socket.onrender.com`).
+
+### 2) Deploy Next.js App on Vercel
+
+- Import this repo into Vercel.
+- Set environment variables:
+  - `MONGODB_URI` (Atlas URI)
+  - `MONGODB_DB`
+  - `JWT_SECRET`
+  - `GEMINI_API_KEY` (optional)
+  - `NEXT_PUBLIC_SOCKET_URL` (your Render socket URL)
+  - `SOCKET_CORS_ORIGIN` (your Vercel app URL)
+- Deploy.
+
+### 3) MongoDB Atlas Free Cluster
+
+- Create an M0 free cluster.
+- Add a database user and network access rules.
+- Use the Atlas connection string as `MONGODB_URI`.
+
+### Notes
+
+- The socket service supports host-provided `PORT` automatically.
+- `@vercel/analytics` works on Vercel Hobby.
 
 ## API Surface
 
@@ -324,3 +361,4 @@ Defaults:
 - Video flow uses generated Jitsi links (no embedded proprietary video SDK).
 - Offline meet requests are notification-driven and do not yet include accept/reject states.
 - Completed session deletion is allowed, while session history snapshots are retained.
+

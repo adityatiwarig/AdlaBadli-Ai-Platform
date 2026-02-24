@@ -1,7 +1,7 @@
 const http = require("http")
 const { Server } = require("socket.io")
 
-const port = Number(process.env.SOCKET_PORT || 4001)
+const port = Number(process.env.PORT || process.env.SOCKET_PORT || 4001)
 const corsOrigin = process.env.SOCKET_CORS_ORIGIN || "http://localhost:3000"
 
 const httpServer = http.createServer((_, res) => {
@@ -30,3 +30,4 @@ httpServer.listen(port, () => {
   // eslint-disable-next-line no-console
   console.log(`Socket server listening on port ${port}`)
 })
+

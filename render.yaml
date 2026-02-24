@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: adlabadli-socket
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server/socket-server.js
+    envVars:
+      - key: SOCKET_CORS_ORIGIN
+        sync: false
