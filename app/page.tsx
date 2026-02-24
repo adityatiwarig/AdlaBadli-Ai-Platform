@@ -118,6 +118,9 @@ export default function LandingPage() {
           <p className="mx-auto mb-10 max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg md:text-xl">
             AdlaBadli AI converts human knowledge into a shared learning economy where time becomes currency. Teach what you know, learn what you love.
           </p>
+          <p className="mx-auto mb-6 max-w-xl text-pretty text-sm font-medium text-primary/90 sm:text-base">
+            Sikhe ke, sikhawe ke - dono mein fayda.
+          </p>
           <div className="mx-auto flex w-full max-w-md flex-col items-center gap-3 sm:max-w-none sm:flex-row sm:justify-center sm:gap-4">
             <Link href="/register" className="w-full sm:w-auto">
               <Button size="lg" className="w-full gap-2 px-8 text-base sm:w-auto">
