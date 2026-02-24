@@ -119,7 +119,7 @@ export default function LandingPage() {
             AdlaBadli AI converts human knowledge into a shared learning economy where time becomes currency. Teach what you know, learn what you love.
           </p>
           <div className="mx-auto mb-5 inline-flex w-full max-w-xl items-center justify-center rounded-full border border-primary/35 bg-primary/15 px-3 py-2 text-center text-xs font-semibold text-foreground shadow-sm sm:mb-6 sm:w-auto sm:px-4 sm:text-base">
-            Sikhe ke, sikhawe ke - dono mein fayda.
+            Ka haal ba? Explore AdlaBadli.
           </div>
           <div className="mx-auto flex w-full max-w-md flex-col items-center gap-3 sm:max-w-none sm:flex-row sm:justify-center sm:gap-4">
             <Link href="/register" className="w-full sm:w-auto">
