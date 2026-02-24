@@ -71,7 +71,7 @@ interface SessionLite {
   createdAt?: string
 }
 
-type AgentType = "coach" | "icebreaker" | "scheduler" | "progress"
+type AgentType = "coach" | "icebreaker" | "scheduler" | "progress" | "diagnose" | "drills"
 type ChatMode = "normal" | "session"
 
 const AGENTS: Array<{ id: AgentType; label: string; hint: string; icon: typeof Lightbulb }> = [
@@ -79,6 +79,8 @@ const AGENTS: Array<{ id: AgentType; label: string; hint: string; icon: typeof L
   { id: "icebreaker", label: "Starter", hint: "Copy-paste prompts", icon: MessageSquare },
   { id: "scheduler", label: "Planner", hint: "Structured session flow", icon: Compass },
   { id: "progress", label: "Progress", hint: "Gap + priorities", icon: TrendingUp },
+  { id: "diagnose", label: "Diagnose", hint: "Root-cause blocker fix", icon: Sparkles },
+  { id: "drills", label: "Drills", hint: "Targeted practice tasks", icon: ListChecks },
 ]
 
 const SESSION_STATUS_PRIORITY: Record<SessionLite["status"], number> = {
@@ -107,6 +109,8 @@ function ChatContent() {
   const [showVideoPanel, setShowVideoPanel] = useState(false)
   const [agentLoading, setAgentLoading] = useState<AgentType | null>(null)
   const [agentResult, setAgentResult] = useState<{ title: string; content: string } | null>(null)
+  const [lastAgentUsed, setLastAgentUsed] = useState<AgentType | null>(null)
+  const [copiedAgent, setCopiedAgent] = useState(false)
   const socketRef = useRef<Socket | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
@@ -276,6 +280,7 @@ function ChatContent() {
   const runAgent = useCallback(async (agent: AgentType) => {
     if (!activePartnerId || !activeSessionId || agentLoading || chatMode !== "session") return
     setAgentLoading(agent)
+    setCopiedAgent(false)
     try {
       const response = await fetch("/api/agents", {
         method: "POST",
@@ -290,6 +295,7 @@ function ChatContent() {
       const data = await response.json()
       if (response.ok && data?.result) {
         setAgentResult(data.result)
+        setLastAgentUsed(agent)
         mutate("/api/sessions")
       } else {
         setAgentResult({ title: "AI Helper", content: data?.error || "Unable to generate response." })
@@ -298,6 +304,17 @@ function ChatContent() {
       setAgentLoading(null)
     }
   }, [activePartnerId, activeSessionId, agentLoading, chatMode, agentFocus])
+
+  const copyAgentResult = useCallback(async () => {
+    if (!agentResult?.content) return
+    try {
+      await navigator.clipboard.writeText(`${agentResult.title}\n\n${agentResult.content}`)
+      setCopiedAgent(true)
+      setTimeout(() => setCopiedAgent(false), 1400)
+    } catch {
+      setCopiedAgent(false)
+    }
+  }, [agentResult])
 
   if (loading || !user) {
     return (
@@ -512,7 +529,21 @@ function ChatContent() {
                           placeholder="Optional focus (e.g., loops confusion)"
                           className="mb-2 h-8 text-xs"
                         />
-                        <div className="grid grid-cols-2 gap-2">
+                        <div className="mb-2 flex flex-wrap gap-1.5">
+                          {["recap quickly", "fix my mistakes", "give practice tasks", "make next 30-min plan"].map((preset) => (
+                            <Button
+                              key={preset}
+                              type="button"
+                              size="sm"
+                              variant="secondary"
+                              className="h-6 px-2 text-[10px]"
+                              onClick={() => setAgentFocus(preset)}
+                            >
+                              {preset}
+                            </Button>
+                          ))}
+                        </div>
+                        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                           {AGENTS.map((agent) => {
                             const Icon = agent.icon
                             return (
@@ -535,7 +566,25 @@ function ChatContent() {
                         </div>
                         {agentResult ? (
                           <div className="mt-2 rounded-md bg-muted/60 p-2">
-                            <p className="text-xs font-semibold text-foreground">{agentResult.title}</p>
+                            <div className="flex items-center justify-between gap-2">
+                              <p className="text-xs font-semibold text-foreground">{agentResult.title}</p>
+                              <div className="flex items-center gap-1.5">
+                                {lastAgentUsed ? (
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    className="h-6 px-2 text-[10px]"
+                                    onClick={() => runAgent(lastAgentUsed)}
+                                    disabled={!!agentLoading}
+                                  >
+                                    Re-run
+                                  </Button>
+                                ) : null}
+                                <Button size="sm" variant="outline" className="h-6 px-2 text-[10px]" onClick={copyAgentResult}>
+                                  {copiedAgent ? "Copied" : "Copy"}
+                                </Button>
+                              </div>
+                            </div>
                             <p className="mt-1 whitespace-pre-line text-xs text-muted-foreground">{agentResult.content}</p>
                           </div>
                         ) : null}

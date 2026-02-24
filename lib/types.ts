@@ -60,7 +60,7 @@ export interface Session {
   summary?: string
   summaryUpdatedAt?: string
   aiInsights?: Array<{
-    agent: "coach" | "icebreaker" | "scheduler" | "progress" | string
+    agent: "coach" | "icebreaker" | "scheduler" | "progress" | "diagnose" | "drills" | string
     title: string
     content: string
     createdAt: string

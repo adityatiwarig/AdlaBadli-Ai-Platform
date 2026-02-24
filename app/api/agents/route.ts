@@ -59,7 +59,8 @@ export async function POST(request: NextRequest) {
       agent,
       partnerName: partner.name,
       skill,
-      summary: [session.summary || "", focus?.trim() ? `User focus: ${focus.trim()}` : ""].filter(Boolean).join("\n"),
+      summary: session.summary || "",
+      focus: focus?.trim(),
       messages: messages.reverse().map((m) => ({
         senderName: m.senderId.toString() === user.id ? "You" : partner.name,
         message: m.message,

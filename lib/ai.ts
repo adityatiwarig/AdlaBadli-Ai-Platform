@@ -16,13 +16,14 @@ interface RollingSummaryInput extends SessionSummaryInput {
   messages: ConversationSnippet[]
 }
 
-export type AgentType = "coach" | "icebreaker" | "scheduler" | "progress"
+export type AgentType = "coach" | "icebreaker" | "scheduler" | "progress" | "diagnose" | "drills"
 
 interface AgentResponseInput {
   agent: AgentType
   skill: string
   partnerName: string
   summary?: string
+  focus?: string
   messages: ConversationSnippet[]
 }
 
@@ -48,9 +49,9 @@ async function callGemini(prompt: string): Promise<string | null> {
         body: JSON.stringify({
           contents: [{ parts: [{ text: prompt }] }],
           generationConfig: {
-            temperature: 0.2,
+            temperature: 0.25,
             topP: 0.9,
-            maxOutputTokens: 280,
+            maxOutputTokens: 520,
           },
         }),
         signal: controller.signal,
@@ -133,38 +134,61 @@ export async function generateRollingSessionSummary(input: RollingSummaryInput):
 }
 
 export async function generateAgentResponse(input: AgentResponseInput): Promise<{ title: string; content: string }> {
-  const recent = input.messages.slice(-12).map((m) => `${m.senderName}: ${m.message}`).join("\n")
+  const recentMessages = input.messages.slice(-18)
+  const recent = recentMessages.map((m) => `${m.senderName}: ${m.message}`).join("\n")
+  const latestUserQuestion = [...recentMessages]
+    .reverse()
+    .find((m) => m.message.includes("?"))?.message
+  const latestTopic = [...recentMessages]
+    .reverse()
+    .find((m) => m.message.trim().length > 8)?.message
+    ?.slice(0, 160)
   const titles: Record<AgentType, string> = {
     coach: "Step-by-Step Coaching Plan",
     icebreaker: "Ready-to-Send Messages",
     scheduler: "Session Plan You Can Follow",
     progress: "Progress Checkup",
+    diagnose: "Learning Blocker Diagnosis",
+    drills: "Practice Drills Pack",
   }
 
   const agentInstruction: Record<AgentType, string> = {
-    coach: "Give practical coaching with headings: Goal now, Next 3 actions, Common mistake, Quick success check.",
-    icebreaker: "Give 5 copy-paste friendly messages the user can send now. Keep them short and natural.",
-    scheduler: "Give one clear agenda based on current context with time slots and checkpoint prompts.",
-    progress: "Evaluate progress in plain language with headings: What is going well, What is missing, Next best 3 actions.",
+    coach: "Return practical coaching with headings exactly: Goal now, Next 3 actions, Common mistake, Quick success check.",
+    icebreaker: "Return 6 copy-paste messages the learner can send now. Include opener, clarification, checkpoint, feedback request, next-step lock, and polite close.",
+    scheduler: "Return one actionable agenda with time blocks, teacher action, learner action, and checkpoint for each block.",
+    progress: "Evaluate progress with headings exactly: Wins, Gaps, Risk if ignored, Next best 3 actions.",
+    diagnose: "Identify root cause of confusion with headings exactly: Most likely blocker, Evidence from chat, Fix in 10 minutes, Follow-up check.",
+    drills: "Create 4 targeted drills with increasing difficulty. For each drill include: Task, Hint, Success criteria.",
   }
 
   const fallback: Record<AgentType, string> = {
     coach: "Goal now: finish one practical outcome.\nNext 3 actions: define target, do guided example, repeat independently.\nCommon mistake: spending too long on theory only.\nQuick success check: explain the concept in 2 minutes and solve one example alone.",
-    icebreaker: "1) What exact result do you want by the end of this session?\n2) Show me one example where you get stuck.\n3) Should we do concept recap first or hands-on practice first?\n4) Can we do a quick checkpoint after 15 minutes?\n5) Before closing, let's lock one action item for next time.",
-    scheduler: "0-5 min: align goal and expected result.\n5-20 min: concept + live example.\n20-35 min: learner practices while teacher guides.\n35-45 min: recap, doubts, and next action.",
-    progress: "What is going well: active participation and clear learning intent.\nWhat is missing: measurable success checkpoint.\nNext best 3 actions: define one metric, complete one practical task, schedule review follow-up.",
+    icebreaker: "1) What exact outcome do you want by the end of this session?\n2) Can you show one example where you get stuck?\n3) Should we start with recap or direct practice?\n4) Can we run a checkpoint after 15 minutes?\n5) What should be our final output before we close?\n6) Let's lock one clear next action before ending.",
+    scheduler: "0-5 min: align target and success metric.\n5-15 min: teacher demo of one example.\n15-30 min: learner practice with guidance.\n30-40 min: review mistakes and corrections.\n40-45 min: recap and assign one next action.",
+    progress: "Wins: active participation and clear intent.\nGaps: no measurable checkpoint yet.\nRisk if ignored: effort without proof of progress.\nNext best 3 actions: set one metric, solve one independent task, schedule review follow-up.",
+    diagnose: "Most likely blocker: concept is understood but application steps are unclear.\nEvidence from chat: repeated confusion during practical execution.\nFix in 10 minutes: run one worked example then one learner-led attempt.\nFollow-up check: learner explains the process and solves a similar task without hints.",
+    drills: "Drill 1 Task: recall key concept in your own words. Hint: use one real example. Success criteria: explanation in under 90 seconds.\nDrill 2 Task: solve one guided example. Hint: follow the 3-step method. Success criteria: no step skipped.\nDrill 3 Task: solve a similar problem independently. Hint: verify assumptions first. Success criteria: correct output.\nDrill 4 Task: explain why your solution works. Hint: compare with one wrong approach. Success criteria: clear reasoning + correction.",
   }
 
   const prompt = [
     "You are an AI assistant for session-based skill coaching.",
+    "You must be practical, concrete, and directly usable in a live session.",
     `Agent mode: ${input.agent}`,
     `Skill: ${input.skill}`,
     `Partner name: ${input.partnerName}`,
     input.summary ? `Current summary: ${input.summary}` : "",
+    input.focus ? `User focus: ${input.focus}` : "",
+    latestTopic ? `Latest topic from chat: ${latestTopic}` : "",
+    latestUserQuestion ? `Latest question detected: ${latestUserQuestion}` : "",
     "Session chat messages:",
     recent || "No recent messages.",
     agentInstruction[input.agent],
-    "Rules: use only session context, avoid generic advice, be concise and practical.",
+    "Rules:",
+    "- Use only session context and user focus.",
+    "- Avoid generic textbook advice.",
+    "- Keep language simple and direct.",
+    "- Include concrete examples where possible.",
+    "- Keep output under 220 words.",
   ]
     .filter(Boolean)
     .join("\n")
@@ -177,7 +201,7 @@ export async function generateAgentResponse(input: AgentResponseInput): Promise<
 }
 
 export function pickAgentTypes(): AgentType[] {
-  return ["coach", "icebreaker", "scheduler", "progress"]
+  return ["coach", "icebreaker", "scheduler", "progress", "diagnose", "drills"]
 }
 
 export function summarizeMessagesForAgent(messages: ConversationSnippet[]): string {
