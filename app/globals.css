@@ -292,3 +292,25 @@
     animation: none !important;
   }
 }
+
+/* Browser zoom often reduces effective viewport width; simplify effects to avoid visual artifacts. */
+@media (max-width: 1200px) {
+  body::before,
+  body::after {
+    display: none;
+  }
+
+  .glass-panel,
+  .section-card {
+    backdrop-filter: none;
+    background: color-mix(in oklab, var(--card) 97%, transparent);
+    box-shadow:
+      0 6px 16px color-mix(in oklab, var(--foreground) 8%, transparent),
+      inset 0 1px 0 color-mix(in oklab, white 12%, transparent);
+  }
+
+  .interactive-card:hover,
+  .interactive-button:hover {
+    transform: none;
+  }
+}
