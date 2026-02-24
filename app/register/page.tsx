@@ -71,13 +71,20 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="flex min-h-[calc(100vh-64px)] items-center justify-center px-4 py-12">
-      <Card className="w-full max-w-lg border border-border">
+    <div className="relative flex min-h-[calc(100vh-64px)] items-center justify-center overflow-hidden px-4 py-8 sm:py-12">
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute left-0 top-0 h-60 w-60 -translate-x-1/3 -translate-y-1/3 rounded-full bg-primary/20 blur-3xl sm:h-80 sm:w-80" />
+        <div className="absolute right-0 top-1/3 h-56 w-56 translate-x-1/4 rounded-full bg-chart-3/20 blur-3xl sm:h-72 sm:w-72" />
+        <div className="absolute bottom-0 left-1/3 h-56 w-56 translate-y-1/3 rounded-full bg-accent/20 blur-3xl sm:h-72 sm:w-72" />
+      </div>
+      <Card className="glass-panel w-full max-w-lg border border-border/70 shadow-[0_18px_60px_color-mix(in_oklab,var(--foreground)_16%,transparent)]">
         <CardHeader className="text-center">
-          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary">
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary shadow-[0_0_24px_color-mix(in_oklab,var(--primary)_40%,transparent)]">
             <ArrowLeftRight className="h-6 w-6 text-primary-foreground" />
           </div>
-          <CardTitle className="text-2xl">Create Account</CardTitle>
+          <CardTitle className="text-2xl font-bold sm:text-3xl">
+            <span className="text-shimmer">Create Account</span>
+          </CardTitle>
           <CardDescription>
             Step {step} of 3 - {step === 1 ? "Basic Info" : step === 2 ? "Skills & Interests" : "Availability & Bio"}
           </CardDescription>
@@ -267,7 +274,7 @@ export default function RegisterPage() {
             <>
               <div className="space-y-2">
                 <Label>Availability</Label>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                   {timeSlots.map((slot) => (
                     <button
                       key={slot}

@@ -102,31 +102,32 @@ export default function LandingPage() {
     <div className="min-h-[calc(100vh-64px)]">
       {/* Hero */}
       <section className="relative overflow-hidden px-4 pb-20 pt-16 md:pt-24">
-        <div className="absolute inset-0 -z-10 opacity-30">
-          <div className="absolute left-1/4 top-1/4 h-72 w-72 rounded-full bg-primary/20 blur-3xl" />
-          <div className="absolute right-1/4 top-1/3 h-64 w-64 rounded-full bg-accent/20 blur-3xl" />
+        <div className="absolute inset-0 -z-10 opacity-70">
+          <div className="absolute left-[10%] top-[10%] h-72 w-72 rounded-full bg-primary/20 blur-3xl sm:h-96 sm:w-96" />
+          <div className="absolute right-[8%] top-[24%] h-64 w-64 rounded-full bg-accent/20 blur-3xl sm:h-80 sm:w-80" />
+          <div className="absolute bottom-[8%] left-[42%] h-48 w-48 rounded-full bg-chart-3/20 blur-3xl sm:h-72 sm:w-72" />
         </div>
         <div className="mx-auto max-w-4xl text-center">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-semibold tracking-wide text-primary sm:text-sm">
             <Zap className="h-3.5 w-3.5" />
             AI-Powered Skill Exchange Platform
           </div>
-          <h1 className="mb-6 text-balance text-4xl font-bold tracking-tight text-foreground md:text-6xl lg:text-7xl">
-            Trade Skills,{" "}
-            <span className="text-primary">Not Money</span>
+          <h1 className="mb-6 text-balance text-4xl font-extrabold tracking-tight text-foreground md:text-6xl lg:text-7xl">
+            <span className="text-dazzle">Trade Skills,</span>{" "}
+            <span className="text-shimmer">Not Money</span>
           </h1>
-          <p className="mx-auto mb-10 max-w-2xl text-pretty text-lg text-muted-foreground md:text-xl">
+          <p className="mx-auto mb-10 max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg md:text-xl">
             AdlaBadli AI converts human knowledge into a shared learning economy where time becomes currency. Teach what you know, learn what you love.
           </p>
-          <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-            <Link href="/register">
-              <Button size="lg" className="gap-2 px-8 text-base">
+          <div className="mx-auto flex w-full max-w-md flex-col items-center gap-3 sm:max-w-none sm:flex-row sm:justify-center sm:gap-4">
+            <Link href="/register" className="w-full sm:w-auto">
+              <Button size="lg" className="w-full gap-2 px-8 text-base sm:w-auto">
                 Start Exchanging
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
-            <Link href="/login">
-              <Button variant="outline" size="lg" className="gap-2 px-8 text-base">
+            <Link href="/login" className="w-full sm:w-auto">
+              <Button variant="outline" size="lg" className="glass-panel w-full gap-2 border-primary/30 px-8 text-base sm:w-auto">
                 I Have an Account
               </Button>
             </Link>
@@ -135,7 +136,7 @@ export default function LandingPage() {
       </section>
 
       {/* Stats */}
-      <section className="border-y border-border bg-card px-4 py-12">
+      <section className="glass-panel border-y border-border/70 px-4 py-12">
         <div className="mx-auto grid max-w-4xl grid-cols-2 gap-8 md:grid-cols-4">
           {stats.map((stat) => (
             <div key={stat.label} className="text-center">
@@ -159,9 +160,9 @@ export default function LandingPage() {
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {features.map((feature) => (
-              <Card key={feature.title} className="border border-border bg-card transition-shadow hover:shadow-md">
+              <Card key={feature.title} className="glass-panel border border-border/70 transition hover:-translate-y-1 hover:shadow-xl">
                 <CardContent className="p-6">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/15 shadow-[0_0_28px_color-mix(in_oklab,var(--primary)_24%,transparent)]">
                     <feature.icon className="h-6 w-6 text-primary" />
                   </div>
                   <h3 className="mb-2 text-lg font-semibold text-foreground">{feature.title}</h3>
@@ -174,7 +175,7 @@ export default function LandingPage() {
       </section>
 
       {/* How it Works */}
-      <section className="bg-muted px-4 py-20">
+      <section className="glass-panel border-y border-border/70 px-4 py-20">
         <div className="mx-auto max-w-4xl">
           <div className="mb-12 text-center">
             <h2 className="mb-4 text-balance text-3xl font-bold text-foreground md:text-4xl">
@@ -200,7 +201,7 @@ export default function LandingPage() {
 
       {/* CTA */}
       <section className="px-4 py-20">
-        <div className="mx-auto max-w-3xl rounded-2xl bg-primary p-8 text-center text-primary-foreground md:p-12">
+        <div className="mx-auto max-w-3xl rounded-2xl bg-primary/90 p-8 text-center text-primary-foreground shadow-[0_18px_80px_color-mix(in_oklab,var(--primary)_45%,transparent)] md:p-12">
           <ArrowLeftRight className="mx-auto mb-4 h-8 w-8" />
           <h2 className="mb-4 text-balance text-3xl font-bold md:text-4xl">
             Ready to Start Exchanging?
@@ -218,7 +219,7 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border px-4 py-8">
+      <footer className="glass-panel border-t border-border/70 px-4 py-8">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 md:flex-row">
           <div className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">

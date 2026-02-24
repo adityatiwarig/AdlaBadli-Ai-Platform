@@ -33,13 +33,19 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-[calc(100vh-64px)] items-center justify-center px-4 py-12">
-      <Card className="w-full max-w-md border border-border">
+    <div className="relative flex min-h-[calc(100vh-64px)] items-center justify-center overflow-hidden px-4 py-10 sm:py-14">
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute -left-20 top-12 h-56 w-56 rounded-full bg-primary/20 blur-3xl sm:h-72 sm:w-72" />
+        <div className="absolute -right-20 bottom-12 h-56 w-56 rounded-full bg-accent/20 blur-3xl sm:h-72 sm:w-72" />
+      </div>
+      <Card className="glass-panel w-full max-w-md border border-border/70 shadow-[0_16px_54px_color-mix(in_oklab,var(--foreground)_16%,transparent)]">
         <CardHeader className="text-center">
-          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary">
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary shadow-[0_0_26px_color-mix(in_oklab,var(--primary)_45%,transparent)]">
             <ArrowLeftRight className="h-6 w-6 text-primary-foreground" />
           </div>
-          <CardTitle className="text-2xl">Welcome Back</CardTitle>
+          <CardTitle className="text-2xl font-bold text-dazzle sm:text-3xl">
+            <span className="text-shimmer">Welcome Back</span>
+          </CardTitle>
           <CardDescription>
             Sign in to continue your skill exchange journey
           </CardDescription>
