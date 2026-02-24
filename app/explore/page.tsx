@@ -118,8 +118,8 @@ export default function ExplorePage() {
 
   return (
     <div className="page-shell">
-      <div className="section-card mb-8 p-5 sm:p-6">
-        <div className="flex flex-wrap items-start justify-between gap-4">
+      <div className="section-card mb-6 p-4 sm:mb-8 sm:p-6">
+        <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:flex-wrap">
           <div>
             <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
               <Sparkles className="h-3.5 w-3.5" />
@@ -130,7 +130,7 @@ export default function ExplorePage() {
               Improved scoring now prioritizes skill fit, schedule overlap, trust/reliability, local compatibility, and learning chemistry.
             </p>
           </div>
-          <div className="rounded-xl bg-muted px-4 py-3 text-right">
+          <div className="w-full rounded-xl bg-muted px-4 py-3 text-left sm:w-auto sm:text-right">
             <p className="text-xs text-muted-foreground">Compatible partners</p>
             <p className="text-2xl font-bold text-foreground">{filteredMatches.length}</p>
           </div>
@@ -168,10 +168,10 @@ export default function ExplorePage() {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-2">
+        <div className="app-scroll -mx-1 flex flex-nowrap gap-2 overflow-x-auto px-1">
           <button
             onClick={() => setSelectedSkill("")}
-            className={`rounded-full px-3 py-1.5 text-xs font-medium ${
+            className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-medium ${
               !selectedSkill ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
             }`}
           >
@@ -181,7 +181,7 @@ export default function ExplorePage() {
             <button
               key={skill}
               onClick={() => setSelectedSkill(selectedSkill === skill ? "" : skill)}
-              className={`rounded-full px-3 py-1.5 text-xs font-medium ${
+              className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-medium ${
                 selectedSkill === skill ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
               }`}
             >
@@ -251,7 +251,7 @@ export default function ExplorePage() {
                       )}
                     </div>
 
-                    <div className="grid grid-cols-2 gap-3 text-xs">
+                    <div className="grid grid-cols-1 gap-3 text-xs sm:grid-cols-2">
                       <div>
                         <p className="mb-1 text-muted-foreground">Skill Fit</p>
                         <Progress value={match.breakdown.skillFit} className="h-2" />
@@ -303,15 +303,15 @@ export default function ExplorePage() {
                       ))}
                     </div>
 
-                    <div className="flex gap-2">
+                    <div className="flex flex-col gap-2 sm:flex-row">
                       <Link href={`/chat?partner=${match.user.id}`} className="flex-1">
                         <Button size="sm" className="w-full gap-1.5">
                           <MessageSquare className="h-3.5 w-3.5" />
                           Start Chat
                         </Button>
                       </Link>
-                      <Link href={`/sessions?create=true&partner=${match.user.id}&skill=${match.matchedTeachSkill}`}>
-                        <Button size="sm" variant="outline" className="gap-1.5">
+                      <Link href={`/sessions?create=true&partner=${match.user.id}&skill=${match.matchedTeachSkill}`} className="sm:w-auto">
+                        <Button size="sm" variant="outline" className="w-full gap-1.5 sm:w-auto">
                           <Timer className="h-3.5 w-3.5" />
                           Schedule
                         </Button>

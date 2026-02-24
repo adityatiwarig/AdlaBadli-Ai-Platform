@@ -316,7 +316,7 @@ function ChatContent() {
         <p className="mt-1 text-sm text-muted-foreground sm:text-base">Normal and session chat stay separate, with live-session auto-focus.</p>
       </div>
 
-      <div className="grid h-[calc(100dvh-100px)] min-h-[640px] gap-3 md:h-[calc(100dvh-120px)] md:min-h-[720px] md:grid-cols-[340px_1fr]">
+      <div className="grid h-[calc(100dvh-132px)] min-h-[520px] gap-3 md:h-[calc(100dvh-120px)] md:min-h-[720px] md:grid-cols-[340px_1fr]">
         <Card className={`section-card flex min-h-0 flex-col overflow-hidden ${activePartnerId ? "hidden md:flex" : "flex"}`}>
           <div className="border-b border-border p-3">
             <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
@@ -368,7 +368,7 @@ function ChatContent() {
           {activePartnerId && partnerInfo ? (
             <>
               <div className="border-b border-border p-3">
-                <div className="mb-2 flex items-center gap-3">
+                <div className="mb-2 flex flex-wrap items-center gap-2 sm:gap-3">
                   <Button variant="ghost" size="sm" className="md:hidden" onClick={() => setActivePartnerId(null)}>
                     <ArrowLeft className="h-4 w-4" />
                   </Button>
@@ -380,8 +380,8 @@ function ChatContent() {
                     <p className="text-xs text-muted-foreground">{partnerInfo.city} - {partnerInfo.teachSkills?.slice(0, 2).join(", ")}</p>
                   </div>
                   {chatMode === "session" && activeSession?.meetingUrl ? (
-                    <a href={activeSession.meetingUrl} target="_blank" rel="noreferrer">
-                      <Button variant="outline" size="sm" className="gap-1.5">
+                    <a href={activeSession.meetingUrl} target="_blank" rel="noreferrer" className="w-full sm:w-auto">
+                      <Button variant="outline" size="sm" className="w-full gap-1.5 sm:w-auto">
                         <Video className="h-3.5 w-3.5" />
                         Join Video
                       </Button>
@@ -390,7 +390,7 @@ function ChatContent() {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="gap-1.5"
+                    className="w-full gap-1.5 sm:w-auto"
                     onClick={() => router.push(`/sessions?create=true&partner=${activePartnerId}&skill=${partnerInfo.teachSkills?.[0] || ""}`)}
                   >
                     <Timer className="h-3.5 w-3.5" />
@@ -545,7 +545,7 @@ function ChatContent() {
                 </div>
               ) : (
                 <div className="border-b border-border p-2.5">
-                  <div className="flex items-center justify-between gap-2 rounded-lg bg-muted/35 p-2">
+                  <div className="flex flex-col items-stretch gap-2 rounded-lg bg-muted/35 p-2 sm:flex-row sm:items-center sm:justify-between">
                     <p className="text-xs text-muted-foreground">Normal chat is independent from sessions. You can clear only this normal thread.</p>
                     <Button size="sm" variant="outline" className="gap-1.5" onClick={clearNormalChat} disabled={clearing || messages.length === 0}>
                       {clearing ? <RefreshCw className="h-3.5 w-3.5 animate-spin" /> : <Trash2 className="h-3.5 w-3.5" />}
@@ -559,7 +559,7 @@ function ChatContent() {
                 <div className="flex items-center gap-2">
                   <Search className="h-4 w-4 text-muted-foreground" />
                   <Input value={messageQuery} onChange={(e) => setMessageQuery(e.target.value)} placeholder={`Search ${chatMode} messages...`} className="h-8" />
-                  <span className="rounded-full bg-muted px-2 py-1 text-[11px] text-muted-foreground">
+                  <span className="hidden rounded-full bg-muted px-2 py-1 text-[11px] text-muted-foreground sm:inline-flex">
                     {filteredMessages.length}/{messages.length}
                   </span>
                 </div>
@@ -582,7 +582,7 @@ function ChatContent() {
                     {filteredMessages.map((msg) => (
                       <div key={msg.id} className={`flex ${msg.senderId === user.id ? "justify-end" : "justify-start"}`}>
                         <div
-                          className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm shadow-sm transition ${
+                          className={`max-w-[92%] rounded-2xl px-3 py-2.5 text-sm shadow-sm transition sm:max-w-[85%] sm:px-4 ${
                             msg.senderId === user.id
                               ? "bg-primary text-primary-foreground shadow-primary/20"
                               : "border border-border/70 bg-card/95 text-foreground"

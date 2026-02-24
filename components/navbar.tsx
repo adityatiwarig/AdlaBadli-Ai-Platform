@@ -61,12 +61,12 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/70 bg-card/85 backdrop-blur-md">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-4 py-3">
-        <Link href={user ? "/dashboard" : "/"} className="flex items-center gap-2">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-3 py-2.5 sm:px-4 sm:py-3">
+        <Link href={user ? "/dashboard" : "/"} className="flex min-w-0 items-center gap-2">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary sm:h-9 sm:w-9">
             <ArrowLeftRight className="h-5 w-5 text-primary-foreground" />
           </div>
-          <span className="text-lg font-bold text-foreground">
+          <span className="truncate text-base font-bold text-foreground sm:text-lg">
             AdlaBadli<span className="text-primary"> AI</span>
           </span>
         </Link>
@@ -198,7 +198,7 @@ export function Navbar() {
             </Button>
 
             {mobileOpen && (
-              <div className="absolute left-0 top-full w-full border-b border-border bg-card p-4 shadow-lg md:hidden">
+              <div className="absolute left-0 top-full max-h-[calc(100dvh-56px)] w-full overflow-y-auto border-b border-border bg-card p-4 shadow-lg md:hidden">
                 <nav className="flex flex-col gap-2">
                   <Link href="/dashboard" onClick={() => setMobileOpen(false)}>
                     <Button variant="ghost" className="w-full justify-start gap-2">

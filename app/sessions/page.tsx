@@ -244,12 +244,12 @@ function SessionsContent() {
 
   return (
     <div className="page-shell max-w-6xl">
-      <div className="mb-8 flex items-center justify-between gap-3">
+      <div className="mb-8 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">Sessions</h1>
           <p className="mt-1 text-sm text-muted-foreground sm:text-base">Run sessions, track AI context, and handle post-session Q&A smoothly.</p>
         </div>
-        <Button onClick={() => setShowCreate(true)} className="gap-2">
+        <Button onClick={() => setShowCreate(true)} className="w-full gap-2 sm:w-auto">
           <Plus className="h-4 w-4" />
           New Session
         </Button>
@@ -309,11 +309,11 @@ function SessionsContent() {
                 </SelectContent>
               </Select>
             </div>
-            <div className="flex gap-2">
-              <Button onClick={handleCreateSession} disabled={creating || !newSession.partnerId || !newSession.skill || !newSession.startTime}>
+            <div className="flex flex-col gap-2 sm:flex-row">
+              <Button className="w-full sm:w-auto" onClick={handleCreateSession} disabled={creating || !newSession.partnerId || !newSession.skill || !newSession.startTime}>
                 {creating ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Creating...</> : "Create Session"}
               </Button>
-              <Button variant="outline" onClick={() => setShowCreate(false)}>Cancel</Button>
+              <Button className="w-full sm:w-auto" variant="outline" onClick={() => setShowCreate(false)}>Cancel</Button>
             </div>
           </CardContent>
         </Card>
@@ -328,8 +328,8 @@ function SessionsContent() {
           <div className="space-y-3">
             {activeSessions.map((session: { id: string; skill: string; status: string; startTime: string; meetingRoomId?: string; meetingUrl?: string; teacherId: string; teacher?: { id: string; name: string }; learner?: { id: string; name: string } }) => (
               <Card key={session.id} className="section-card border-primary/25">
-                <CardContent className="flex flex-col items-center justify-between gap-4 p-5 sm:flex-row">
-                  <div className="flex items-center gap-4">
+                <CardContent className="flex flex-col items-start justify-between gap-4 p-5 sm:flex-row sm:items-center">
+                  <div className="flex items-start gap-4">
                     {getStatusIcon(session.status)}
                     <div>
                       <p className="font-semibold text-foreground">{session.skill}</p>
@@ -338,9 +338,9 @@ function SessionsContent() {
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4">
+                  <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center">
                     {session.startTime && <SessionTimer startTime={session.startTime} />}
-                    <div className="flex gap-2">
+                    <div className="flex w-full flex-wrap gap-2 sm:w-auto">
                       {session.meetingUrl ? (
                         <a href={session.meetingUrl} target="_blank" rel="noreferrer">
                           <Button size="sm" variant="outline">
@@ -374,8 +374,8 @@ function SessionsContent() {
           <div className="space-y-3">
             {scheduledSessions.map((session: { id: string; skill: string; status: string; startTime?: string; plannedDuration?: number; meetingRoomId?: string; meetingUrl?: string; teacherId: string; teacher?: { id: string; name: string }; learner?: { id: string; name: string } }) => (
               <Card key={session.id} className="section-card">
-                <CardContent className="flex flex-col items-center justify-between gap-4 p-5 sm:flex-row">
-                  <div className="flex items-center gap-4">
+                <CardContent className="flex flex-col items-start justify-between gap-4 p-5 sm:flex-row sm:items-center">
+                  <div className="flex items-start gap-4">
                     {getStatusIcon(session.status)}
                     <div>
                       <p className="font-semibold text-foreground">{session.skill}</p>
@@ -391,7 +391,7 @@ function SessionsContent() {
                       {session.meetingRoomId ? <p className="text-xs text-muted-foreground">Meeting ID: {session.meetingRoomId}</p> : null}
                     </div>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex w-full flex-wrap gap-2 sm:w-auto">
                     {session.meetingUrl ? (
                       <a href={session.meetingUrl} target="_blank" rel="noreferrer">
                         <Button size="sm" variant="outline">
@@ -487,7 +487,7 @@ function SessionsContent() {
                           </div>
                         </div>
                       </div>
-                      <div className="flex gap-2">
+                      <div className="flex w-full flex-wrap gap-2 sm:w-auto">
                         <Link href={`/chat?partner=${session.teacherId === user.id ? session.learner?.id : session.teacher?.id}`}>
                           <Button size="sm" variant="outline">
                             <MessageSquare className="mr-1 h-3.5 w-3.5" /> Chat
@@ -631,9 +631,10 @@ function SessionsContent() {
                           <Label className="text-xs">Comment (optional)</Label>
                           <Input placeholder="Share your experience..." value={ratingForm.comment} onChange={(e) => setRatingForm((p) => ({ ...p, comment: e.target.value }))} />
                         </div>
-                        <div className="flex gap-2">
+                        <div className="flex flex-col gap-2 sm:flex-row">
                           <Button
                             size="sm"
+                            className="w-full sm:w-auto"
                             onClick={() => {
                               const ratedUserId = session.teacherId === user.id ? session.learnerId : session.teacherId
                               handleRate(session.id, ratedUserId)
@@ -641,7 +642,7 @@ function SessionsContent() {
                           >
                             Submit Rating
                           </Button>
-                          <Button size="sm" variant="outline" onClick={() => setShowRating(null)}>Cancel</Button>
+                          <Button size="sm" className="w-full sm:w-auto" variant="outline" onClick={() => setShowRating(null)}>Cancel</Button>
                         </div>
                       </div>
                     )}

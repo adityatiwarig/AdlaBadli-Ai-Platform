@@ -163,7 +163,7 @@ export default function DashboardPage() {
 
         {/* Top Matches */}
         <Card className="section-card lg:col-span-2">
-          <CardHeader className="flex flex-row items-center justify-between">
+          <CardHeader className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
             <div>
               <CardTitle className="text-lg">Recommended Matches</CardTitle>
               <CardDescription>AI-powered skill partners for you</CardDescription>
@@ -187,7 +187,7 @@ export default function DashboardPage() {
             ) : (
               <div className="space-y-3">
                 {topMatches.map((match: { user: { id: string; name: string; city: string; area?: string; trustScore: number; teachSkills: string[] }; score: number; confidence?: string; matchedTeachSkill: string; reasons: string[] }) => (
-                  <div key={match.user.id} className="flex items-center gap-4 rounded-xl border border-border/70 p-4 transition-colors hover:bg-muted/45">
+                  <div key={match.user.id} className="flex flex-col gap-3 rounded-xl border border-border/70 p-4 transition-colors hover:bg-muted/45 sm:flex-row sm:items-center">
                     <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
                       {match.user.name.charAt(0)}
                     </div>
@@ -207,8 +207,8 @@ export default function DashboardPage() {
                         {match.user.city}{match.user.area ? ` / ${match.user.area}` : ""} - Can teach: {match.matchedTeachSkill}
                       </p>
                     </div>
-                    <Link href={`/chat?partner=${match.user.id}`}>
-                      <Button size="sm" variant="outline" className="gap-1">
+                    <Link href={`/chat?partner=${match.user.id}`} className="w-full sm:w-auto">
+                      <Button size="sm" variant="outline" className="w-full gap-1 sm:w-auto">
                         <MessageSquare className="h-3.5 w-3.5" />
                         Chat
                       </Button>

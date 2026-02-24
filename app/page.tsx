@@ -101,7 +101,7 @@ export default function LandingPage() {
   return (
     <div className="min-h-[calc(100vh-64px)]">
       {/* Hero */}
-      <section className="relative overflow-hidden px-4 pb-20 pt-16 md:pt-24">
+      <section className="relative overflow-hidden px-4 pb-14 pt-12 sm:pb-20 sm:pt-16 md:pt-24">
         <div className="absolute inset-0 -z-10 opacity-70">
           <div className="absolute left-[10%] top-[10%] h-72 w-72 rounded-full bg-primary/20 blur-3xl sm:h-96 sm:w-96" />
           <div className="absolute right-[8%] top-[24%] h-64 w-64 rounded-full bg-accent/20 blur-3xl sm:h-80 sm:w-80" />
@@ -112,13 +112,13 @@ export default function LandingPage() {
             <Zap className="h-3.5 w-3.5" />
             AI-Powered Skill Exchange Platform
           </div>
-          <h1 className="mb-6 text-balance text-4xl font-extrabold tracking-tight md:text-6xl lg:text-7xl">
+          <h1 className="mb-5 text-balance text-3xl font-extrabold tracking-tight sm:text-4xl md:mb-6 md:text-6xl lg:text-7xl">
             <span className="heading-gradient">Trade Skills, Not Money</span>
           </h1>
-          <p className="mx-auto mb-10 max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg md:text-xl">
+          <p className="mx-auto mb-7 max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground sm:mb-10 sm:text-lg md:text-xl">
             AdlaBadli AI converts human knowledge into a shared learning economy where time becomes currency. Teach what you know, learn what you love.
           </p>
-          <div className="mx-auto mb-6 inline-flex w-full max-w-xl items-center justify-center rounded-full border border-primary/35 bg-primary/15 px-4 py-2 text-center text-sm font-semibold text-foreground shadow-sm sm:w-auto sm:text-base">
+          <div className="mx-auto mb-5 inline-flex w-full max-w-xl items-center justify-center rounded-full border border-primary/35 bg-primary/15 px-3 py-2 text-center text-xs font-semibold text-foreground shadow-sm sm:mb-6 sm:w-auto sm:px-4 sm:text-base">
             Sikhe ke, sikhawe ke - dono mein fayda.
           </div>
           <div className="mx-auto flex w-full max-w-md flex-col items-center gap-3 sm:max-w-none sm:flex-row sm:justify-center sm:gap-4">
@@ -138,19 +138,19 @@ export default function LandingPage() {
       </section>
 
       {/* Stats */}
-      <section className="glass-panel border-y border-border/70 px-4 py-12">
-        <div className="mx-auto grid max-w-4xl grid-cols-2 gap-8 md:grid-cols-4">
+      <section className="glass-panel border-y border-border/70 px-4 py-8 sm:py-12">
+        <div className="mx-auto grid max-w-4xl grid-cols-2 gap-5 sm:gap-8 md:grid-cols-4">
           {stats.map((stat) => (
             <div key={stat.label} className="text-center">
-              <div className="text-3xl font-bold text-primary md:text-4xl">{stat.value}</div>
-              <div className="mt-1 text-sm text-muted-foreground">{stat.label}</div>
+              <div className="text-2xl font-bold text-primary sm:text-3xl md:text-4xl">{stat.value}</div>
+              <div className="mt-1 text-xs text-muted-foreground sm:text-sm">{stat.label}</div>
             </div>
           ))}
         </div>
       </section>
 
       {/* Features */}
-      <section className="px-4 py-20">
+      <section className="px-4 py-14 sm:py-20">
         <div className="mx-auto max-w-6xl">
           <div className="mb-12 text-center">
             <h2 className="mb-4 text-balance text-3xl font-bold text-foreground md:text-4xl">
@@ -177,7 +177,7 @@ export default function LandingPage() {
       </section>
 
       {/* How it Works */}
-      <section className="glass-panel border-y border-border/70 px-4 py-20">
+      <section className="glass-panel border-y border-border/70 px-4 py-14 sm:py-20">
         <div className="mx-auto max-w-4xl">
           <div className="mb-12 text-center">
             <h2 className="mb-4 text-balance text-3xl font-bold text-foreground md:text-4xl">
@@ -202,8 +202,8 @@ export default function LandingPage() {
       </section>
 
       {/* CTA */}
-      <section className="px-4 py-20">
-        <div className="mx-auto max-w-3xl rounded-2xl bg-primary/90 p-8 text-center text-primary-foreground shadow-[0_18px_80px_color-mix(in_oklab,var(--primary)_45%,transparent)] md:p-12">
+      <section className="px-4 py-14 sm:py-20">
+        <div className="mx-auto max-w-3xl rounded-2xl bg-primary/90 p-6 text-center text-primary-foreground shadow-[0_18px_80px_color-mix(in_oklab,var(--primary)_45%,transparent)] sm:p-8 md:p-12">
           <ArrowLeftRight className="mx-auto mb-4 h-8 w-8" />
           <h2 className="mb-4 text-balance text-3xl font-bold md:text-4xl">
             Ready to Start Exchanging?
