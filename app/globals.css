@@ -119,6 +119,9 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    scroll-behavior: smooth;
+  }
   body {
     @apply bg-background text-foreground;
     position: relative;
@@ -187,7 +190,12 @@
   }
 
   .section-card {
-    @apply glass-panel rounded-2xl border border-border/70;
+    @apply rounded-2xl border border-border/70;
+    background: color-mix(in oklab, var(--card) 90%, transparent);
+    backdrop-filter: blur(8px) saturate(118%);
+    box-shadow:
+      0 8px 24px color-mix(in oklab, var(--foreground) 8%, transparent),
+      inset 0 1px 0 color-mix(in oklab, white 16%, transparent);
   }
 
   .heading-gradient {
@@ -198,6 +206,9 @@
   }
 
   .app-scroll {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
     scrollbar-width: thin;
     scrollbar-color: color-mix(in oklab, var(--primary) 45%, transparent) transparent;
   }
@@ -249,6 +260,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   body::before,
   body::after,
   .text-shimmer {
