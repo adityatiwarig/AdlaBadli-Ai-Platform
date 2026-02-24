@@ -19,6 +19,27 @@ async function validateSessionChat(sessionId: string, userId: string, partnerId:
   return session
 }
 
+async function ensureSessionWritable(sessionId: string, userId: string, partnerId: string) {
+  const session = await validateSessionChat(sessionId, userId, partnerId)
+  if (!session) return null
+
+  if (session.status === "scheduled") {
+    session.status = "active"
+    if (!session.startTime) {
+      session.startTime = new Date()
+    }
+    session.endTime = undefined
+    session.duration = undefined
+    session.creditsTransferred = 0
+    await session.save()
+  }
+
+  if (session.status !== "active") {
+    return null
+  }
+  return session
+}
+
 async function refreshSessionSummary(sessionId: string) {
   try {
     const session = await SessionModel.findById(sessionId)
@@ -175,11 +196,8 @@ export async function POST(request: NextRequest) {
 
     let linkedSessionId: mongoose.Types.ObjectId | undefined
     if (sessionId) {
-      const session = await validateSessionChat(sessionId, user.id, receiverId)
+      const session = await ensureSessionWritable(sessionId, user.id, receiverId)
       if (!session) {
-        return NextResponse.json({ error: "Invalid session for this chat" }, { status: 403 })
-      }
-      if (session.status !== "active") {
         return NextResponse.json({ error: "Session chat is read-only after session closes" }, { status: 400 })
       }
       linkedSessionId = session._id

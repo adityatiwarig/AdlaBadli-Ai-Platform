@@ -213,7 +213,7 @@ function ChatContent() {
     () => partnerSessions.find((s) => s.id === activeSessionId) || null,
     [partnerSessions, activeSessionId]
   )
-  const isActiveSessionChat = chatMode === "session" && activeSession?.status === "active"
+  const isWritableSessionChat = chatMode === "session" && !!activeSession && ["active", "scheduled"].includes(activeSession.status)
   const hasLiveSession = partnerSessions.some((s) => s.status === "active")
 
   useEffect(() => {
@@ -231,7 +231,7 @@ function ChatContent() {
   const sendMessage = useCallback(async () => {
     if (!newMessage.trim() || !activePartnerId || sending) return
     if (chatMode === "session" && !activeSessionId) return
-    if (chatMode === "session" && activeSession?.status !== "active") return
+    if (chatMode === "session" && !isWritableSessionChat) return
 
     setSending(true)
     try {
@@ -259,7 +259,7 @@ function ChatContent() {
     } finally {
       setSending(false)
     }
-  }, [newMessage, activePartnerId, sending, chatMode, activeSessionId, activeSession?.status])
+  }, [newMessage, activePartnerId, sending, chatMode, activeSessionId, isWritableSessionChat])
 
   const clearNormalChat = useCallback(async () => {
     if (!activePartnerId || chatMode !== "normal") return
@@ -602,9 +602,14 @@ function ChatContent() {
               </div>
 
               <div className="sticky bottom-0 z-10 shrink-0 border-t border-border bg-card/95 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur">
-                {chatMode === "session" && activeSession && activeSession.status !== "active" ? (
+                {chatMode === "session" && activeSession && !["active", "scheduled"].includes(activeSession.status) ? (
                   <div className="mb-2 rounded-md border border-border bg-muted/50 px-2.5 py-1.5 text-xs text-muted-foreground">
                     Session ended. Chat is view-only now.
+                  </div>
+                ) : null}
+                {chatMode === "session" && activeSession?.status === "scheduled" ? (
+                  <div className="mb-2 rounded-md border border-primary/25 bg-primary/10 px-2.5 py-1.5 text-xs text-foreground">
+                    Session is scheduled. Sending first message will start the session chat.
                   </div>
                 ) : null}
                 <form onSubmit={(e) => { e.preventDefault(); sendMessage() }} className="flex gap-2">
@@ -612,10 +617,10 @@ function ChatContent() {
                     placeholder={chatMode === "session" ? "Type session message..." : "Type normal message..."}
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
-                    disabled={chatMode === "session" && !isActiveSessionChat}
+                    disabled={chatMode === "session" && !isWritableSessionChat}
                     className="flex-1"
                   />
-                  <Button type="submit" size="sm" disabled={!newMessage.trim() || sending || (chatMode === "session" && (!activeSessionId || !isActiveSessionChat))}>
+                  <Button type="submit" size="sm" disabled={!newMessage.trim() || sending || (chatMode === "session" && (!activeSessionId || !isWritableSessionChat))}>
                     <Send className="h-4 w-4" />
                     <span className="sr-only">Send message</span>
                   </Button>
