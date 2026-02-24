@@ -123,7 +123,7 @@ export default function LandingPage() {
           </div>
           <div className="mx-auto flex w-full max-w-md flex-col items-center gap-3 sm:max-w-none sm:flex-row sm:justify-center sm:gap-4">
             <Link href="/register" className="w-full sm:w-auto">
-              <Button size="lg" className="w-full gap-2 px-8 text-base sm:w-auto">
+              <Button size="lg" className="interactive-button w-full gap-2 px-8 text-base sm:w-auto">
                 Start Exchanging
                 <ArrowRight className="h-4 w-4" />
               </Button>
@@ -162,7 +162,7 @@ export default function LandingPage() {
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {features.map((feature) => (
-              <Card key={feature.title} className="glass-panel border border-border/70 transition hover:-translate-y-1 hover:shadow-xl">
+              <Card key={feature.title} className="glass-panel interactive-card border border-border/70">
                 <CardContent className="p-6">
                   <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/15 shadow-[0_0_28px_color-mix(in_oklab,var(--primary)_24%,transparent)]">
                     <feature.icon className="h-6 w-6 text-primary" />
@@ -212,7 +212,7 @@ export default function LandingPage() {
             Join thousands of learners who are already exchanging skills and growing together.
           </p>
           <Link href="/register">
-            <Button size="lg" variant="secondary" className="gap-2 px-8 text-base">
+            <Button size="lg" variant="secondary" className="interactive-button gap-2 px-8 text-base">
               Create Free Account
               <ArrowRight className="h-4 w-4" />
             </Button>

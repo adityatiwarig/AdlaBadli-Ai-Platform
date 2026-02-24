@@ -63,7 +63,7 @@ export default function DashboardPage() {
 
       {/* Stats Grid */}
       <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Card className="section-card">
+        <Card className="section-card interactive-card">
           <CardContent className="flex items-center gap-4 p-5">
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary/10">
               <Timer className="h-6 w-6 text-primary" />
@@ -75,7 +75,7 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="section-card">
+        <Card className="section-card interactive-card">
           <CardContent className="flex items-center gap-4 p-5">
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-chart-2/10">
               <Shield className="h-6 w-6 text-chart-2" />
@@ -87,7 +87,7 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="section-card">
+        <Card className="section-card interactive-card">
           <CardContent className="flex items-center gap-4 p-5">
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-chart-3/10">
               <BookOpen className="h-6 w-6 text-chart-3" />
@@ -99,7 +99,7 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="section-card">
+        <Card className="section-card interactive-card">
           <CardContent className="flex items-center gap-4 p-5">
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-chart-5/10">
               <TrendingUp className="h-6 w-6 text-chart-5" />
@@ -114,7 +114,7 @@ export default function DashboardPage() {
 
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Skills Overview */}
-        <Card className="section-card lg:col-span-1">
+        <Card className="section-card interactive-card lg:col-span-1">
           <CardHeader>
             <CardTitle className="text-lg">Your Skills</CardTitle>
             <CardDescription>What you teach and want to learn</CardDescription>
@@ -162,7 +162,7 @@ export default function DashboardPage() {
         </Card>
 
         {/* Top Matches */}
-        <Card className="section-card lg:col-span-2">
+        <Card className="section-card interactive-card lg:col-span-2">
           <CardHeader className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
             <div>
               <CardTitle className="text-lg">Recommended Matches</CardTitle>
@@ -223,7 +223,7 @@ export default function DashboardPage() {
 
       {/* Active Sessions & Quick Actions */}
       <div className="mt-6 grid gap-6 lg:grid-cols-2">
-        <Card className="section-card">
+        <Card className="section-card interactive-card">
           <CardHeader>
             <CardTitle className="text-lg">Upcoming Sessions</CardTitle>
             <CardDescription>{activeSessions.length} active or scheduled</CardDescription>
@@ -264,38 +264,38 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="section-card">
+        <Card className="section-card interactive-card">
           <CardHeader>
             <CardTitle className="text-lg">Quick Actions</CardTitle>
             <CardDescription>Jump into what matters</CardDescription>
           </CardHeader>
           <CardContent className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <Link href="/explore">
-              <Button variant="outline" className="h-auto w-full flex-col gap-2 py-6">
+              <Button variant="outline" className="interactive-button h-auto w-full flex-col gap-2 py-6">
                 <Search className="h-6 w-6 text-primary" />
                 <span className="text-sm">Find Matches</span>
               </Button>
             </Link>
             <Link href="/chat">
-              <Button variant="outline" className="h-auto w-full flex-col gap-2 py-6">
+              <Button variant="outline" className="interactive-button h-auto w-full flex-col gap-2 py-6">
                 <MessageSquare className="h-6 w-6 text-chart-2" />
                 <span className="text-sm">Messages</span>
               </Button>
             </Link>
             <Link href="/sessions">
-              <Button variant="outline" className="h-auto w-full flex-col gap-2 py-6">
+              <Button variant="outline" className="interactive-button h-auto w-full flex-col gap-2 py-6">
                 <Timer className="h-6 w-6 text-chart-3" />
                 <span className="text-sm">Sessions</span>
               </Button>
             </Link>
             <Link href="/profile">
-              <Button variant="outline" className="h-auto w-full flex-col gap-2 py-6">
+              <Button variant="outline" className="interactive-button h-auto w-full flex-col gap-2 py-6">
                 <Users className="h-6 w-6 text-chart-5" />
                 <span className="text-sm">Profile</span>
               </Button>
             </Link>
             <Link href="/offline-meets">
-              <Button variant="outline" className="h-auto w-full flex-col gap-2 py-6">
+              <Button variant="outline" className="interactive-button h-auto w-full flex-col gap-2 py-6">
                 <MapPin className="h-6 w-6 text-primary" />
                 <span className="text-sm">Offline Meet</span>
               </Button>

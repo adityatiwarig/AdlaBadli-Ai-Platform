@@ -252,10 +252,10 @@ export function Navbar() {
         ) : (
           <div className="flex items-center gap-1.5 sm:gap-2">
             <Link href="/login">
-              <Button variant="ghost" size="sm" className="px-3 sm:px-4">Login</Button>
+              <Button variant="ghost" size="sm" className="interactive-button px-3 sm:px-4">Login</Button>
             </Link>
             <Link href="/register">
-              <Button size="sm" className="px-3 sm:px-4">Get Started</Button>
+              <Button size="sm" className="interactive-button px-3 sm:px-4">Get Started</Button>
             </Link>
           </div>
         )}
